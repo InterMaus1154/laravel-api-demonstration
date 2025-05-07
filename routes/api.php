@@ -35,6 +35,9 @@ Route::prefix('v1')->group(function () {
         // create new product
         Route::post('/products/store', [ProductController::class, 'store']);
 
+        // mark product hidden
+        Route::patch('/product/{product}/hide', [ProductController::class, 'markHidden']);
+
     });
 
     // get product by id (if not hidden)

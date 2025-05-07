@@ -55,4 +55,22 @@ class ProductController extends Controller
             'data' => ProductResource::make($product->refresh())
         ], 201);
     }
+
+    // hide a product if owned by user
+    public function markHidden(Request $request, Product $product)
+    {
+        if($product->user_id !== $request->user()->user_id){
+            return response()->json([
+                'message' => 'You are unauthorized to manage this product!'
+            ], 403);
+        }
+
+        $product->update([
+            'product_hidden' => true
+        ]);
+        return response()->json([
+            'message' => 'Product successfully hidden',
+            'data' => ProductResource::make($product)
+        ], 200);
+    }
 }
