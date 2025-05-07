@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\UserToken;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -39,7 +40,11 @@ class AuthController extends Controller
     // logout user
     public function logout(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
+        // revoke token
+        UserToken::whereToken($request->bearerToken())->first()->update([
+            'revoked_at' => now()
+        ]);
+
         return response()->json([
             'message' => 'User logged out'
         ], 200);
