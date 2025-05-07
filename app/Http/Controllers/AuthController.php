@@ -67,7 +67,9 @@ class AuthController extends Controller
             ]);
 
             // login user
-            $token = $user->createToken('user_token')->plainTextToken;
+            $token = $user->tokens()->create([
+                'token' => Str::random(64)
+            ])->token;
 
             return response()->json([
                 'message' => 'User successfully registered!',
