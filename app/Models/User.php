@@ -11,7 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasFactory, Notifiable;
 
     protected $primaryKey = 'user_id';
 
@@ -41,5 +41,10 @@ class User extends Authenticatable
     public function products()
     {
         return $this->hasMany(Product::class, 'user_id', 'user_id');
+    }
+
+    public function tokens()
+    {
+        return $this->hasMany(UserToken::class, 'user_id', 'user_id');
     }
 }
