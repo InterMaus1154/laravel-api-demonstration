@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Middleware\ForceJsonApiMiddleware;
+use App\Http\Controllers\ProductController;
 
 
 // all routes prefixed with v1
@@ -27,6 +28,9 @@ Route::prefix('v1')->group(function(){
         Route::post('/logout', [AuthController::class, 'logout']);
 
     });
+
+    // get all non-hidden products
+    Route::get('/products', [ProductController::class, 'index']);
 
 });
 
