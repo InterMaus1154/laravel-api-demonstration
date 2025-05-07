@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\ApiAuthMiddleware;
 
 
 // all routes prefixed with v1
@@ -21,7 +22,7 @@ Route::prefix('v1')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
 
     // routes require authenticated user (bearer token)
-    Route::middleware('auth:sanctum')->group(function () {
+    Route::middleware(ApiAuthMiddleware::class)->group(function () {
 
         // logout
         Route::post('/logout', [AuthController::class, 'logout']);

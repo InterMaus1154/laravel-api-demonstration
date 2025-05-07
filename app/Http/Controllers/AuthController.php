@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -25,7 +26,9 @@ class AuthController extends Controller
         }
 
         // create access token and send back to user
-        $token = $user->createToken('user_token')->plainTextToken;
+        $token = $user->tokens()->create([
+            'token' => Str::random(64)
+        ])->token;
 
         return response()->json([
             'message' => 'Success',
