@@ -17,6 +17,9 @@ Route::prefix('v1')->group(function(){
     // login user
     Route::post('/login', [AuthController::class, 'login']);
 
+    // register user
+    Route::post('/register', [AuthController::class, 'register']);
+
     // routes require authenticated user (bearer token)
     Route::middleware('auth:sanctum')->group(function(){
 
