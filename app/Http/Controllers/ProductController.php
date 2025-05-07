@@ -27,14 +27,32 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         // throw 404 if product is hidden
-        if($product->product_hidden){
+        if ($product->product_hidden) {
             throw new NotFoundHttpException();
         }
-        return response()->json(ProductResource::make($product));
+        return response()->json(ProductResource::make($product->loadMissing('user')));
     }
 
+    // create new product
     public function store(Request $request)
     {
+        $request->validate([
+            'category_id' => 'required|exists:categories,category_id',
+            'product_name' => 'required|string|max:200',
+            'product_price' => 'required|decimal:2',
+            'product_stock' => 'required|numeric|min:0'
+        ]);
 
+        $product = $request->user()->products()->create([
+           'category_id' => $request->input('category_id'),
+           'product_name' => $request->input('product_name'),
+           'product_price' => $request->input('product_price'),
+           'product_stock' => $request->input('product_stock')
+        ]);
+
+        return response()->json([
+            'message' => 'Product successfully created',
+            'data' => ProductResource::make($product->refresh())
+        ], 201);
     }
 }
