@@ -32,7 +32,13 @@ Route::prefix('v1')->group(function () {
         // show logged-in user products (all)
         Route::get('/users/me/products', [UserController::class, 'products']);
 
+        // create new product
+        Route::post('/products/store', [ProductController::class, 'store']);
+
     });
+
+    // get product by id (if not hidden)
+    Route::get('/product/{product}', [ProductController::class, 'show']);
 
     // get all non-hidden products
     Route::get('/products', [ProductController::class, 'index']);

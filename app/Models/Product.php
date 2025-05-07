@@ -9,6 +9,8 @@ class Product extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'product_id';
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'user_id');
