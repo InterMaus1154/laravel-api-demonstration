@@ -18,10 +18,11 @@ class ProductResource extends JsonResource
         return [
             'productName' => $this->product_name,
             'category' => $this->category->category_name,
-            'productPrice' => '£' .$this->product_price,
+            'productPrice' => '£' . $this->product_price,
             'productStock' => $this->product_stock,
             'uploadedAt' => Carbon::parse($this->created_at)->format('d/m/Y'),
-            'uploadedBy' => UserResource::make($this->user)
+            'uploadedBy' => UserResource::make($this->whenLoaded('user')),
+
         ];
     }
 }
