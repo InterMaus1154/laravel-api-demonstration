@@ -29,6 +29,9 @@ Route::prefix('v1')->group(function () {
         // show logged-in user info
         Route::get('/users/me', [UserController::class, 'userInfo']);
 
+        // show logged-in user products (all)
+        Route::get('/users/me/products', [UserController::class, 'products']);
+
     });
 
     // get all non-hidden products

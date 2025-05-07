@@ -22,7 +22,7 @@ class ProductResource extends JsonResource
             'productStock' => $this->product_stock,
             'uploadedAt' => Carbon::parse($this->created_at)->format('d/m/Y'),
             'uploadedBy' => UserResource::make($this->whenLoaded('user')),
-
+            'isPublic' => $this->when($request->is('*/users/me/products'), !$this->product_hidden)
         ];
     }
 }
